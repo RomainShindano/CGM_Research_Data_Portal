@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CGM controlled-access RGB-D research data portal prototype">
+  <title>CGM Research Data Portal</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main id="top">
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="#top" aria-label="Child Growth Monitor Research Data home">
+          <img src="https://www.childgrowthmonitor.org/wp-content/uploads/2023/03/WHH-International_Logo_White_sRGB.svg" alt="Welthungerhilfe">
+          <span class="brand-rule"></span>
+          <span class="brand-name"><strong>CHILD GROWTH</strong><strong>MONITOR</strong><small>RESEARCH DATA</small></span>
+        </a>
+        <nav aria-label="Primary navigation">
+          <a href="#catalogue">Countries</a>
+          <a href="#documentation">Documentation</a>
+          <a href="#access">How to access</a>
+          <a href="#governance">Governance</a>
+        </nav>
+        <button class="header-button js-open-request">Request access <span>↗</span></button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-glow"></div>
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">CGM GLOBAL RGB-D RESEARCH DATASET</p>
+          <h1>Better child health research starts with <em>better data.</em></h1>
+          <p class="hero-lead">Explore eight country-level RGB-D collections with reference anthropometry. Eligible researchers can request controlled access to the countries their study needs.</p>
+          <div class="hero-actions">
+            <button class="button button-light js-open-request">Check eligibility &amp; request <b>→</b></button>
+            <a class="text-link" href="#catalogue">Explore country data <span>↓</span></a>
+          </div>
+          <div class="trust-line"><span>●</span> Access reviewed by CGM &nbsp;·&nbsp; Research use only &nbsp;·&nbsp; Country-level packages</div>
+        </div>
+        <div class="data-visual" aria-label="Illustration of RGB and depth data layers">
+          <div class="visual-topline"><span>SCAN CGM-IND-01482</span><span class="privacy-dot">DE-IDENTIFIED</span></div>
+          <div class="visual-grid">
+            <div class="scan-panel rgb-panel"><span class="panel-label">RGB</span><div class="person-silhouette"><i></i><b></b></div><div class="pose-points p1"></div><div class="pose-points p2"></div><div class="pose-points p3"></div><div class="pose-points p4"></div></div>
+            <div class="scan-panel depth-panel"><span class="panel-label">DEPTH</span><div class="depth-body"><i></i><b></b></div><div class="depth-scale"></div></div>
+          </div>
+          <div class="visual-footer"><div><small>HEIGHT</small><strong>94.6 cm</strong></div><div><small>MUAC</small><strong>14.2 cm</strong></div><div><small>AGE</small><strong>37 mo</strong></div><div><small>VIEWS</small><strong>4</strong></div></div>
+        </div>
+      </div>
+      <div class="hero-stats"><div><strong>8</strong><span>countries represented</span></div><div><strong>~40.9K</strong><span>children in collection</span></div><div><strong>2</strong><span>RGB-D device systems</span></div><div><strong>6–59</strong><span>months target age</span></div></div>
+    </section>
+
+    <section class="section catalogue-section" id="catalogue">
+      <div class="section-heading"><div><p class="eyebrow green">COUNTRY DATA CATALOGUE</p><h2>Select only the data your study needs.</h2></div><p>Each approved country package will map to a prepared folder in Azure Blob Storage containing image data, depth data, relational exports and documentation.</p></div>
+      <div class="catalogue-toolbar"><p><b id="selected-count">0</b> <span id="selected-label">countries</span> selected</p><button id="request-selected" class="button button-primary" disabled>Request selected data <b>→</b></button></div>
+      <div class="country-grid" id="country-grid"></div>
+    </section>
+
+    <section class="section dataset-section" id="documentation">
+      <div class="section-heading"><div><p class="eyebrow green">PACKAGE STRUCTURE</p><h2>A consistent folder for every country.</h2></div><p>For the MVP, CGM prepares the approved folders manually. PostgreSQL records are exported as files and stored alongside the corresponding country data.</p></div>
+      <div class="dataset-layout">
+        <article class="folder-preview">
+          <div class="folder-title"><span>▱</span><div><small>AZURE BLOB CONTAINER</small><h3>cgm-research-data / country</h3></div></div>
+          <div class="file-tree"><div><b>images/</b><span>RGB frames organised by scan</span></div><div><b>depth/</b><span>Registered depth maps</span></div><div><b>relational/</b><span>PostgreSQL export as CSV files</span></div><div><b>documentation/</b><span>Manifest, dictionary and protocol notes</span></div></div>
+          <p>Production packages can use Parquet or CSV for relational exports depending on scale and researcher requirements.</p>
+        </article>
+        <aside class="included-card">
+          <p class="eyebrow green">WHAT IS INCLUDED</p>
+          <div class="included-row"><span>01</span><div><h4>RGB images</h4><p>Multi-view image frames organised by child and scan.</p></div></div>
+          <div class="included-row"><span>02</span><div><h4>Depth maps</h4><p>Registered depth data captured by the country device.</p></div></div>
+          <div class="included-row"><span>03</span><div><h4>Relational export</h4><p>Country-level PostgreSQL records exported as files.</p></div></div>
+          <div class="included-row"><span>04</span><div><h4>Documentation</h4><p>Manifest, data dictionary and collection notes.</p></div></div>
+          <button class="plain-link" id="sample-metadata">View sample metadata <b>↗</b></button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="access-section" id="access">
+      <div class="access-intro"><p class="eyebrow">CONCIERGE MVP JOURNEY</p><h2>From research question to country download.</h2><p>The frontend is structured; CGM verification, review and package preparation remain manual until demand justifies automation.</p></div>
+      <div class="access-steps five">
+        <div class="access-step"><span>01</span><h3>Explore</h3><p>Review country coverage, devices and package contents.</p></div>
+        <div class="access-step"><span>02</span><h3>Check eligibility</h3><p>Confirm institutional, ethics and security readiness.</p></div>
+        <div class="access-step"><span>03</span><h3>Apply</h3><p>Request only the countries and data needed for the study.</p></div>
+        <div class="access-step"><span>04</span><h3>Review &amp; agree</h3><p>CGM reviews manually and issues the Data Use Agreement.</p></div>
+        <div class="access-step"><span>05</span><h3>Download</h3><p>Approved country ZIP packages become available securely.</p></div>
+      </div>
+      <button class="button button-light js-open-request">Try the complete MVP journey <b>→</b></button>
+    </section>
+
+    <section class="section governance-section" id="governance">
+      <div class="governance-copy"><p class="eyebrow green">DATA GOVERNANCE</p><h2>Approval determines exactly what can be downloaded.</h2><p>The researcher sees only the country packages covered by the approved purpose and signed Data Use Agreement. The production service should issue expiring links and record every delivery.</p><a href="mailto:info@childgrowthmonitor.org">Ask CGM about data governance <b>↗</b></a></div>
+      <div class="guardrails"><div><b>01</b><h3>Country-level scope</h3><p>Applications specify the countries needed, keeping access proportionate.</p></div><div><b>02</b><h3>Manual CGM review</h3><p>Early requests are assessed by people while CGM learns what to automate.</p></div><div><b>03</b><h3>Agreement before access</h3><p>No country package appears until approval and agreement acceptance.</p></div><div><b>04</b><h3>Controlled delivery</h3><p>Production packages use time-limited links and auditable delivery records.</p></div></div>
+    </section>
+
+    <section class="cta-section"><div><p class="eyebrow">ADVANCE THE FIELD</p><h2>Request the countries that can answer your research question.</h2></div><button class="button button-light js-open-request">Start eligibility check <b>→</b></button></section>
+    <footer>
+      <a class="brand" href="#top"><img src="https://www.childgrowthmonitor.org/wp-content/uploads/2023/03/WHH-International_Logo_White_sRGB.svg" alt="Welthungerhilfe"><span class="brand-rule"></span><span class="brand-name"><strong>CHILD GROWTH</strong><strong>MONITOR</strong><small>RESEARCH DATA</small></span></a>
+      <p>A controlled-access research data service by Child Growth Monitor.</p>
+      <div><a href="https://www.childgrowthmonitor.org/">CGM website</a><a href="mailto:info@childgrowthmonitor.org">Contact</a><a href="#governance">Data governance</a></div>
+      <small>© 2026 Child Growth Monitor. MVP prototype. All downloadable packages contain dummy data.</small>
+    </footer>
+  </main>
+  <div id="modal-root"></div>
+  <div class="toast" id="toast" role="status" hidden><b>Sample metadata</b><span>The country ZIP downloads include representative dummy metadata.</span></div>
+</body>
+</html>
